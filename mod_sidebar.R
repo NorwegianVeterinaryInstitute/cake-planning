@@ -37,7 +37,7 @@ sidebarServer <- function(id, board) {
     observeEvent(input$submit, {
       req(input$date, input$hour, input$room, input$section, input$person, input$cake_desc)
       # Save the input data frame to the pin board
-      pin_write(board, inputData(), name = paste(Sys.getenv("user_name"),'/cake_user_inputs'), description = 'User input data')
+      pin_write(board, inputData(), name = paste0(Sys.getenv("user_name"),'/cake_user_inputs'), description = 'User input data')
     })
     
     return(inputData)
