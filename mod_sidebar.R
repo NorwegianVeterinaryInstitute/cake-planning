@@ -7,7 +7,10 @@ sidebarUI <- function(id) {
   tagList(
     dateInput(ns('date'), 'Select Date:', value = Sys.Date()),
     selectInput(ns('hour'), 'Select Hour:', choices = 9:15),
-    selectInput(ns('room'), 'Select Room:', choices = paste('Room', 1:5)),
+    selectInput(ns('room'), 'Select Room:', choices = c("Akutten",
+                 "Aksjonen", "Klekkeriet", "Utsikten", "Adamstua",
+                 "Prionet", "BSL3", "Skalpellen", "Rapporten",
+                 "Rugeriet", "Hensikten", "Sekvensen", "Malm")),
     selectInput(ns('section'), 'Select Section:', choices = paste('Section', 102:141)),
     textInput(ns('person'), 'Person Name:'),
     textAreaInput(ns('cake_desc'), 'Cake Description:', rows = 3),
