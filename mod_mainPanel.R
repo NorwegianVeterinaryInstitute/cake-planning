@@ -16,8 +16,8 @@ mainPanelServer <- function(id, board) {
     
     output$dataTable <- renderDT({
       # Read the pinned data frame from the pin board
-      pin <- pin_reactive_read(board, name = paste0(Sys.getenv("user_name"),'/cake_user_inputs'))
-      datatable(pin, options = list(
+      pinned_cakes <- pin_reactive_read(board, name = paste0(Sys.getenv("user_name"),'/cake_user_inputs'), interval = 30000)
+      datatable(pinned_cakes(), options = list(
         columnDefs = list(list(
           targets = '_all',
           className = 'dt-center'
