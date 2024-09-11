@@ -8,7 +8,7 @@ source('mod_sidebar.R')
 source('mod_mainPanel.R')
 
 # Create a pin board
-board <- board_connect()
+board <- board_local()
 
 # Define UI
 ui <- fluidPage(
@@ -27,7 +27,7 @@ ui <- fluidPage(
         align-items: center;
       }
       .header img {
-        max-height: 120px; 
+        max-height: 150px; 
         margin-bottom: 10px;
       }
     '))
