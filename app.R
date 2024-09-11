@@ -27,7 +27,7 @@ ui <- fluidPage(
         align-items: center;
       }
       .header img {
-        max-height: 120px; 
+        max-height: 150px; 
         margin-bottom: 10px;
       }
     '))
