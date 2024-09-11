@@ -16,7 +16,7 @@ mainPanelServer <- function(id, board) {
     
     output$dataTable <- renderDT({
       # Read the pinned data frame from the pin board
-      pin <- pin_reactive_read(board, name = 'user_inputs')
+      pin <- pin_reactive_read(board, name = paste(Sys.getenv("user_name"),'/user_inputs'))
       datatable(pin, options = list(
         columnDefs = list(list(
           targets = '_all',
