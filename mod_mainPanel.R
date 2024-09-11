@@ -1,0 +1,28 @@
+library(shiny)
+library(DT)
+
+# Main Panel UI Module
+mainPanelUI <- function(id) {
+  ns <- NS(id)
+  
+  tagList(
+    DTOutput(ns('dataTable'))
+  )
+}
+
+# Main Panel Server Module
+mainPanelServer <- function(id, board) {
+  moduleServer(id, function(input, output, session) {
+    
+    output$dataTable <- renderDT({
+      # Read the pinned data frame from the pin board
+      pin <- pin_reactive_read(board, name = 'user_inputs')
+      datatable(pin, options = list(
+        columnDefs = list(list(
+          targets = '_all',
+          className = 'dt-center'
+        ))
+      ))
+    })
+  })
+}
