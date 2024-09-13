@@ -7,10 +7,27 @@ sidebarUI <- function(id) {
   tagList(
     dateInput(ns('date'), 'Select Date:', value = Sys.Date()),
     selectInput(ns('hour'), 'Select Hour:', choices = 9:15),
-    selectInput(ns('room'), 'Select Room:', choices = c("Akutten",
-                                                        "Aksjonen", "Klekkeriet", "Utsikten", "Adamstua",
-                                                        "Prionet", "BSL3", "Skalpellen", "Rapporten",
-                                                        "Rugeriet", "Hensikten", "Sekvensen", "Malm")),
+    selectInput(
+      ns('room'),
+      'Select Room:',
+      choices = c(
+        "Adamstuen",
+        "Aksjonen",
+        "Akutten",
+        "Cellen",
+        "Inkubatoren",
+        "Hensikten",
+        "Klekkeriet",
+        "Malm",
+        "Prionet",
+        "Rapporten",
+        "Resepten",
+        "Rugeriet",
+        "Sekvensen",
+        "Skalpellen",
+        "Utsikten"
+      )
+    ),
     selectInput(ns('section'), 'Select Section:', choices = 102:141),
     textInput(ns('person'), 'Person Name:'),
     textAreaInput(ns('cake_desc'), 'Cake Description:', rows = 3),
@@ -36,14 +53,25 @@ sidebarServer <- function(id, board) {
     })
     
     observeEvent(input$submit, {
-      req(input$date, input$hour, input$room, input$section, input$person, input$cake_desc)
-      pinned_cakes <- pin_read(board, 
-                               name = paste0('cake_user_inputs'))
+      req(
+        input$date,
+        input$hour,
+        input$room,
+        input$section,
+        input$person,
+        input$cake_desc
+      )
+      pinned_cakes <- pin_read(board, name = paste0('cake_user_inputs'))
       
       updated_cakes <- rbind(pinned_cakes, inputData())
       
       # Save the input data frame to the pin board
-      pin_write(board, updated_cakes, name = paste0(Sys.getenv("user_name"),'/cake_user_inputs'), description = 'Cake app user input data')
+      pin_write(
+        board,
+        updated_cakes,
+        name = paste0(Sys.getenv("user_name"), '/cake_user_inputs'),
+        description = 'Cake app user input data'
+      )
       
       # Clear the inputs after submission
       updateDateInput(session, "date", value = Sys.Date())
