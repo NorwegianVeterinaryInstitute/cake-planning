@@ -40,7 +40,7 @@ sidebarServer <- function(id, board) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
-    inputData <- reactive({
+    input_data <- reactive({
       data.frame(
         `Date` = input$date,
         `Hour` = input$hour,
@@ -63,7 +63,7 @@ sidebarServer <- function(id, board) {
       )
       pinned_cakes <- pin_read(board, name = paste0('cake_user_inputs'))
       
-      updated_cakes <- rbind(pinned_cakes, inputData())
+      updated_cakes <- rbind(pinned_cakes, input_data())
       
       # Save the input data frame to the pin board
       pin_write(
@@ -82,6 +82,6 @@ sidebarServer <- function(id, board) {
       updateTextAreaInput(session, "cake_desc", value = "")
     })
     
-    return(inputData)
+    return(input_data)
   })
 }

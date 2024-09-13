@@ -30,8 +30,7 @@ mainPanelServer <- function(id, board) {
           "Cake Description"
         ),
         options = list(columnDefs = list(
-          list(targets = '_all',
-               className = 'dt-center')
+          list(targets = '_all', className = 'dt-center')
         ))
       )
     })

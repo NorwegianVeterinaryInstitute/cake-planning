@@ -15,8 +15,9 @@ ui <- fluidPage(
   theme = bs_theme(bootswatch = 'sketchy'),
   
   # Header
-  tags$head(
-    tags$style(HTML('
+  tags$head(tags$style(
+    HTML(
+      '
       .header {
         text-align: center;
         padding: 20px;
@@ -27,31 +28,26 @@ ui <- fluidPage(
         align-items: center;
       }
       .header img {
-        max-height: 150px; 
+        max-height: 150px;
         margin-bottom: 10px;
       }
-    '))
-  ),
-  
-  div(class = 'header',
-      div(img(src = 'logo.webp', alt = 'Logo')),  
-      div(h1('VI Cake Planner'),
-      uiOutput('subtitle'))
-  ),
-  
-  sidebarLayout(
-    sidebarPanel(
-      sidebarUI('sidebar1')  # Call sidebar module UI
-    ),
-    mainPanel(
-      mainPanelUI('mainpanel1')  # Call main panel module UI
+    '
     )
-  )
+  )),
+  
+  div(class = 'header', div(img(
+    src = 'logo.webp', alt = 'Logo'
+  )), div(
+    h1('VI Cake Planner'), uiOutput('subtitle')
+  )),
+  
+  sidebarLayout(sidebarPanel(# Call sidebar module UI
+    sidebarUI('sidebar1')), mainPanel(# Call main panel module UI
+      mainPanelUI('mainpanel1')))
 )
 
 # Define server logic
 server <- function(input, output, session) {
-  
   # Generate a random subtitle
   subtitles <- c(
     'Don\'t miss on all the fun!',
@@ -65,9 +61,9 @@ server <- function(input, output, session) {
   })
   
   # Call the modules
-  inputData <- sidebarServer('sidebar1', board)  # Call sidebar module server
+  input_data <- sidebarServer('sidebar1', board)  # Call sidebar module server
   mainPanelServer('mainpanel1', board)           # Call main panel module server
 }
 
-# Run the application 
+# Run the application
 shinyApp(ui = ui, server = server)
