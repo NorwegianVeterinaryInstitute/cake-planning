@@ -28,7 +28,32 @@ sidebarUI <- function(id) {
         "Utsikten"
       )
     ),
-    selectInput(ns('section'), 'Select Section:', choices = 102:141),
+    selectInput(ns('section'), 'Select Section:', choices = c(
+      "Analyser og diagnostikk",               
+      "Bakteriologi",                          
+      "Byggteknikk og eiendom",                
+      "Dyrehelse, dyrevelferd og mattrygghet",
+      "Epidemiologi",                          
+      "Fiskediagnostikk",                      
+      "Fiskehelse og fiskevelferd",            
+      "Forskning akvatisk biosikkerhet",       
+      "Forskning fiskehelse",                  
+      "Forskning kjemi og toksinologi",        
+      "Forskning mattrygghet og dyrehelse",    
+      "Forskning og internasjonalisering",     
+      "Havbruk, villfisk og velferd",          
+      "Høyrisikoagens og patologi",            
+      "HR og organisasjon",                    
+      "Husdyr, vilt og velferd",               
+      "Infrastruktur og digitalisering",       
+      "Kommunikasjon og samfunnskontakt",      
+      "Medieproduksjon og logistikk",          
+      "Mikrobiologi",                          
+      "Miljø og smittetiltak",                 
+      "Molekylærbiologi",                      
+      "Økonomi, regnskap og lønn",             
+      "Virologi, immunologi og parasittologi" 
+    )),
     textInput(ns('person'), 'Person Name:'),
     textAreaInput(ns('cake_desc'), 'Cake Description:', rows = 3),
     actionButton(ns('submit'), 'Submit')
