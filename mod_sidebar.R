@@ -27,7 +27,8 @@ sidebarUI <- function(id) {
         "Skalpellen",
         "Utsikten"
       )
-    ),
+    ) |>
+      tooltip("Remember to book the room!"),
     selectInput(ns('section'), 'Select Section:', choices = c(
       "Analyser og diagnostikk",               
       "Bakteriologi",                          
