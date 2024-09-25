@@ -13,9 +13,6 @@ on:
 
 jobs:
   ci:
-    env:
-      CONNECT_SERVER:  ${{ secrets.CONNECT_SERVER }}
-      CONNECT_API_KEY: ${{ secrets.CONNECT_API_KEY }}
     runs-on: ubuntu-latest
 
     steps:
@@ -49,9 +46,9 @@ jobs:
       - name: Publish to Posit Connect
         uses: rstudio/actions/connect-publish@main
         with:
-          url: $CONNECT_SERVER
-          api-key: $CONNECT_API_KEY
-          access-type: logged_in
+          url: ${{ secrets.CONNECT_SERVER }}
+          api-key: ${{ secrets.CONNECT_API_KEY }}
+          access-type: all
           dir: |
             .:/cake-planning
 
