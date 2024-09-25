@@ -2,6 +2,7 @@
 # Worflow derived from https://github.com/r-lib/actions/blob/v2/examples/shiny-deploy.yaml
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+# See also: https://solutions.posit.co/operations/deploy-methods/ci-cd/github-actions/
 
 name: Update Requirements on Deploy Branch
 
@@ -9,7 +10,6 @@ on:
   push:
     branches:
       - main  # Trigger when pushing to main
-
 
 jobs:
   ci:
@@ -30,11 +30,11 @@ jobs:
         run: install.packages("rsconnect")
         shell: Rscript {0}
 
-
       - name: Generate rsconnect manifest.json
         run: rsconnect::writeManifest()
         shell: Rscript {0}
-
+      
+      # For use in case a deploy branch is published on Connect
       # - name: Commit changes and push to deploy branch
       #   run: |
       #     git config --global user.name "github-actions[bot]"
