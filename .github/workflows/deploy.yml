@@ -34,7 +34,7 @@ jobs:
       - name: Generate rsconnect manifest.json
         run: rsconnect::writeManifest()
         shell: Rscript {0}
-        
+
       # - name: Commit changes and push to deploy branch
       #   run: |
       #     git config --global user.name "github-actions[bot]"
@@ -42,13 +42,15 @@ jobs:
       #     git add manifest.json
       #     git commit -m "Update manifest.json on new commit from main" || echo "No changes to commit"
       #     git push origin --force HEAD:deploy  # Push to deploy branch, using force because of diverging branches
-   
+      
+      # Seems this action is missing a way to set up an env var for the content
       - name: Publish to Posit Connect
         uses: rstudio/actions/connect-publish@main
         with:
           url: ${{ secrets.CONNECT_SERVER }}
           api-key: ${{ secrets.CONNECT_API_KEY }}
           access-type: all
+          update_env: false
           dir: |
-            .:/cake-planning
+            .:/cake
 
