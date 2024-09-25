@@ -52,5 +52,5 @@ jobs:
           access-type: all
           update-env: false
           dir: |
-            .:/cake
+            .:cake
 
