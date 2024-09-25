@@ -46,7 +46,7 @@ jobs:
       - name: Publish to Posit Connect
         uses: rstudio/actions/connect-publish@main
         env:
-          CONNECT_ENV_SET_USER_NAME: ${{ CONNECT_ENV_SET_USER_NAME }}
+          CONNECT_ENV_SET_USER_NAME: ${{ secrets.CONNECT_ENV_SET_USER_NAME }}
         with:
           url: ${{ secrets.CONNECT_SERVER }}
           api-key: ${{ secrets.CONNECT_API_KEY }}
