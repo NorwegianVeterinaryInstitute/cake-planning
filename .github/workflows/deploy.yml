@@ -46,11 +46,12 @@ jobs:
       # Seems this action is missing a way to set up an env var for the content
       - name: Publish to Posit Connect
         uses: rstudio/actions/connect-publish@main
+        env:
+          ${{ CONNECT_ENV_SET_USER_NAME }}
         with:
           url: ${{ secrets.CONNECT_SERVER }}
           api-key: ${{ secrets.CONNECT_API_KEY }}
           access-type: all
-          update-env: false
           dir: |
-            .:cake
+            .:/cake-planning
 
