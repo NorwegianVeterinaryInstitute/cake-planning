@@ -36,6 +36,7 @@ jobs:
 
       - name: Generate rsconnect manifest.json
         run: rsconnect::writeManifest()
+        shell: Rscript {0}
         
       - name: Commit changes and push to deploy branch
         run: |
