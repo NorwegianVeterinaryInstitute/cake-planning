@@ -44,7 +44,14 @@ ui <- fluidPage(
       sidebarUI('sidebar1')  # Call sidebar module UI
     ),
     mainPanel(
-      mainPanelUI('mainpanel1')  # Call main panel module UI
+      card(card_body(mainPanelUI_card('text1'))),
+      navset_card_underline(
+        title = "When do you want cake? Are you a time traveller (Click Historic then!)?",
+        nav_panel("Today", mainPanelUI('mainpanel2')),
+        nav_panel("Upcoming", mainPanelUI('mainpanel3')),
+        nav_panel("Historic (All)", mainPanelUI('mainpanel1')),
+        
+      )
     )
   )
 )
@@ -65,8 +72,11 @@ server <- function(input, output, session) {
   })
   
   # Call the modules
-  inputData <- sidebarServer('sidebar1', board)  # Call sidebar module server
+  inputData_more <- sidebarServer('sidebar1', board)  # Call sidebar module server
+  mainPanelServer_card('text1', inputData_more[[2]])
   mainPanelServer('mainpanel1', board)           # Call main panel module server
+  mainPanelServer_today('mainpanel2', board)
+  mainPanelServer_up('mainpanel3', board)
 }
 
 # Run the application 
