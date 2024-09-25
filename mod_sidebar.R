@@ -95,7 +95,7 @@ sidebarServer <- function(id, board) {
       pin_write(
         board,
         updated_cakes,
-        name = paste0(Sys.getenv("user_name"), '/cake_user_inputs'),
+        name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'),
         description = 'Cake app user input data'
       )
       

@@ -16,7 +16,7 @@ mainPanelServer <- function(id, board) {
       pinned_cakes <-
         pin_reactive_read(
           board,
-          name = paste0(Sys.getenv("user_name"), '/cake_user_inputs'),
+          name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'),
           interval = 1000
         )
       datatable(

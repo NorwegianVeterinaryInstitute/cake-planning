@@ -43,7 +43,6 @@ jobs:
       #     git commit -m "Update manifest.json on new commit from main" || echo "No changes to commit"
       #     git push origin --force HEAD:deploy  # Push to deploy branch, using force because of diverging branches
       
-      # Seems this action is missing a way to set up an env var for the content
       - name: Publish to Posit Connect
         uses: rstudio/actions/connect-publish@main
         env:
