@@ -16,10 +16,14 @@ mainPanelServer <- function(id, board) {
           name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'),
           interval = 1000
         )
+      # Hide secret ingredient
       pinned_cakes <- pinned_cakes()[,c(1:5,7)]
       datatable(
         pinned_cakes,
+        # Do not show row names
         rownames = FALSE,
+        # Add filters for each column
+        filter = "top",
         colnames = c(
           "Date",
           "Hour",
@@ -29,6 +33,8 @@ mainPanelServer <- function(id, board) {
           "Cake Description"
         ),
         options = list(
+          # order table by date and then time
+          order = list(list(0, 'asc'), list(1, 'asc')),
           columnDefs = list(
           list(targets = '_all', className = 'dt-center')
         ))
