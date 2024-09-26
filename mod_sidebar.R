@@ -1,12 +1,10 @@
-library(shiny)
-
 # Sidebar UI Module
 sidebarUI <- function(id) {
   ns <- NS(id)
   
   tagList(
     dateInput(ns('date'), 'Select Date:', value = Sys.Date()),
-    selectInput(ns('hour'), 'Select Hour:', choices = 9:15),
+    timeInput(ns("hour"), "Time:", value = strptime("12:00:00", "%T"), minute.steps = 10),
     selectInput(
       ns('room'),
       'Select Room:',
@@ -101,7 +99,7 @@ sidebarServer <- function(id, board) {
       
       # Clear the inputs after submission
       updateDateInput(session, "date", value = Sys.Date())
-      updateSelectInput(session, "hour", selected = NULL)
+      updateTimeInput(session, "hour", value = strptime("12:00:00", "%T"))
       updateSelectInput(session, "room", selected = NULL)
       updateSelectInput(session, "section", selected = NULL)
       updateTextInput(session, "person", value = "")

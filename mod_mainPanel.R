@@ -1,6 +1,3 @@
-library(shiny)
-library(DT)
-
 # Main Panel UI Module
 mainPanelUI <- function(id) {
   ns <- NS(id)
