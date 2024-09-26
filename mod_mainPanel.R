@@ -14,8 +14,7 @@ mainPanelServer <- function(id, board) {
       pinned_cakes <-
         pin_reactive_read(
           board,
-          #name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'),
-          name = "vi2313/cake_user_inputs",
+          name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'),
           interval = 1000
         )
       # Hide secret ingredient
@@ -54,8 +53,7 @@ mainPanelServer_up <- function(id, board) {
       pinned_cakes <-
         pin_reactive_read(
           board,
-          #name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'),
-          name = "vi2313/cake_user_inputs",
+          name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'),
           interval = 1000
         )
       # Remove the secret ingredient column
@@ -96,8 +94,7 @@ mainPanelServer_today <- function(id, board) {
       pinned_cakes <-
         pin_reactive_read(
           board,
-          #name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'),
-          name = "vi2313/cake_user_inputs",
+          name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'),
           interval = 1000
         )
       # Remove the secret ingredient column
