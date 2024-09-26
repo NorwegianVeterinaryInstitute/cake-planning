@@ -106,9 +106,35 @@ sidebarServer <- function(id, board) {
         input$person,
         input$sec_in
       )
-      pinned_cakes <- pin_read(board, name = paste0('cake_user_inputs'))
+      pinned_cakes <- pin_read(board,
+                               name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'))
       
-      updated_cakes <- rbind(pinned_cakes, input_data())
+      pinned_cakes_exists <- pinned_cakes |>
+        dplyr::filter(Secret.Ingredient == input$sec_in & Person.Name == input$person & Date == input$date)
+      
+      if(input$select == 2) {
+        if (nrow(pinned_cakes_exists) == 0) {
+          updated_cakes <- pinned_cakes
+        } else {
+          pinned_cakes <- pinned_cakes |>
+            dplyr::filter(Secret.Ingredient != input$sec_in | Person.Name != input$person | Date != input$date)
+          updated_cakes <- rbind(pinned_cakes, input_data())
+        }
+      } else if (input$select == 3) {
+        if (nrow(pinned_cakes_exists) == 0) {
+          updated_cakes <- pinned_cakes
+        } else {
+          pinned_cakes <- pinned_cakes |>
+            dplyr::filter(Secret.Ingredient != input$sec_in | Person.Name != input$person | Date != input$date)
+          updated_cakes <- pinned_cakes
+        }
+      } else {
+        if (nrow(pinned_cakes_exists) != 0) {
+          updated_cakes <- pinned_cakes
+        } else {
+          updated_cakes <- rbind(pinned_cakes, input_data())
+        }
+      }
       
       # Save the input data frame to the pin board
       pin_write(
