@@ -2,6 +2,9 @@ library(shiny)
 library(bslib)
 library(pins)
 library(DT)
+library(dplyr)
+library(shinyjs)
+library(shinyTime)
 
 # Source the modules
 source('mod_sidebar.R')
