@@ -1,0 +1,17 @@
+Package: cake
+Title: Cake Planning
+Version: 0.1
+Authors@R: as.person(c(
+))
+Description: Cake planning at VI
+Depends: R (>= 3.6.0)
+License: Apache 2.0
+LazyData: true
+Imports:
+  shiny
+  bslib
+  pins
+  DT
+  dplyr
+  shinyjs
+  shinyTime
