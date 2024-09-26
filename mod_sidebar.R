@@ -3,6 +3,10 @@ sidebarUI <- function(id) {
   ns <- NS(id)
   
   tagList(
+    useShinyjs(),
+    radioButtons(ns('select'), 'Select Option:',
+                 choices = list("Add a new cake entry" = 1, "Modify an entry" = 2, "Delete an entry" = 3),
+                 selected = 1),
     dateInput(ns('date'), 'Select Date:', value = Sys.Date()),
     timeInput(ns("hour"), "Time:", value = strptime("12:00:00", "%T"), minute.steps = 10),
     selectInput(
@@ -54,6 +58,7 @@ sidebarUI <- function(id) {
       "Virologi, immunologi og parasittologi" 
     )),
     textInput(ns('person'), 'Person Name:'),
+    textInput(ns('sec_in'), 'Secret Ingredient:'),
     textAreaInput(ns('cake_desc'), 'Cake Description:', rows = 3),
     actionButton(ns('submit'), 'Submit')
   )
@@ -64,14 +69,30 @@ sidebarServer <- function(id, board) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
+    observeEvent(input$select, {
+      if(input$select == 3) {
+        shinyjs::hide("hour")
+        shinyjs::hide("room")
+        shinyjs::hide("section")
+        shinyjs::hide("cake_desc")
+      } else {
+        shinyjs::show("hour")
+        shinyjs::show("room")
+        shinyjs::show("section")
+        shinyjs::show("cake_desc")
+      }
+    })
+    
     input_data <- reactive({
       data.frame(
+        
         `Date` = input$date,
-        `Hour` = input$hour,
+        `Hour` = (strftime(input$hour, "%R")),
         `Room` = input$room,
         `Section` = input$section,
-        `Person Name` = input$person,
-        `Cake Description` = input$cake_desc,
+        `Person.Name` = input$person,
+        `Secret.Ingredient` = input$sec_in,
+        `Cake.Description` = input$cake_desc,
         stringsAsFactors = FALSE
       )
     })
@@ -83,7 +104,7 @@ sidebarServer <- function(id, board) {
         input$room,
         input$section,
         input$person,
-        input$cake_desc
+        input$sec_in
       )
       pinned_cakes <- pin_read(board, name = paste0('cake_user_inputs'))
       
@@ -98,11 +119,13 @@ sidebarServer <- function(id, board) {
       )
       
       # Clear the inputs after submission
+      updateRadioButtons(session, "select", selected = 1)
       updateDateInput(session, "date", value = Sys.Date())
       updateTimeInput(session, "hour", value = strptime("12:00:00", "%T"))
       updateSelectInput(session, "room", selected = NULL)
       updateSelectInput(session, "section", selected = NULL)
       updateTextInput(session, "person", value = "")
+      updateTextInput(session, "sec_in", value = "")
       updateTextAreaInput(session, "cake_desc", value = "")
     })
     
