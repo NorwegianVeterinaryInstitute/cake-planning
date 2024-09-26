@@ -16,8 +16,10 @@ mainPanelServer <- function(id, board) {
           name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'),
           interval = 1000
         )
+      pinned_cakes <- pinned_cakes()[,c(1:5,7)]
       datatable(
-        pinned_cakes(),
+        pinned_cakes,
+        rownames = FALSE,
         colnames = c(
           "Date",
           "Hour",
@@ -26,7 +28,8 @@ mainPanelServer <- function(id, board) {
           "Person Name",
           "Cake Description"
         ),
-        options = list(columnDefs = list(
+        options = list(
+          columnDefs = list(
           list(targets = '_all', className = 'dt-center')
         ))
       )
