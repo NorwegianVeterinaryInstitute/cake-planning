@@ -71,6 +71,11 @@ sidebarServer <- function(id, board) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
+    # Create a reactive variable: problem
+    problem <- reactiveVal()
+    # Add default text for this variable
+    problem("I hope you are here to make a new cake entry!")
+    
     # Observe the radio button (select) to expand or collapse input list
     observeEvent(input$select, {
       if(input$select == 3) {
@@ -109,7 +114,8 @@ sidebarServer <- function(id, board) {
         input$cake_desc
       )
       pinned_cakes <- pin_read(board,
-                               name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'))
+                               name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs')
+                               )
       
       # See if the entry already exists
       pinned_cakes_exists <- pinned_cakes |>
@@ -119,8 +125,12 @@ sidebarServer <- function(id, board) {
       if(input$select == 2) {
         # If the entry is not found, do not change anything
         if (nrow(pinned_cakes_exists) == 0) {
+          # Update the text in reactive variable: problem
+          problem("We cannot find your entry! Did you forget your secret ingredient?")
           updated_cakes <- pinned_cakes
         } else { # If entry is found, update the table
+          # Update the text in reactive variable: problem
+          problem("Entry modified! If you do not see the modification, kindly refresh the page.")
           # Remove previous entry
           pinned_cakes <- pinned_cakes |>
             dplyr::filter(Secret.Ingredient != input$sec_in | Person.Name != input$person | Date != input$date)
@@ -129,16 +139,24 @@ sidebarServer <- function(id, board) {
         }
       } else if (input$select == 3) { # If the user chooses to delete
         if (nrow(pinned_cakes_exists) == 0) { # If entry does not exists, do nothing
+          # Update the text in reactive variable: problem
+          problem("We cannot find your entry! Did you forget your secret ingredient?")
           updated_cakes <- pinned_cakes
         } else { # If entry exists, remove the entry
+          # Update the text in reactive variable: problem
+          problem("Entry deleted! Sad! Bet the cake was awesome! Anyways, if you do not see the deletion, kindly refresh the page.")
           pinned_cakes <- pinned_cakes |>
             dplyr::filter(Secret.Ingredient != input$sec_in | Person.Name != input$person | Date != input$date)
           updated_cakes <- pinned_cakes
         }
       } else { # If the user chooses to add an entry
         if (nrow(pinned_cakes_exists) != 0) { # If entry already exists, do not do anything
+          # Update the text in reactive variable: problem
+          problem("Entry already exists! If you are trying to modify an entry, select Modify")
           updated_cakes <- pinned_cakes
         } else { # If entry does not exist, add the entry
+          # Update the text in reactive variable: problem
+          problem("Thank you for cake! Can't wait to Nom Nom Nom Nom Nom!!!!")
           updated_cakes <- rbind(pinned_cakes, input_data())
         }
       }
@@ -162,6 +180,6 @@ sidebarServer <- function(id, board) {
       updateTextAreaInput(session, "cake_desc", value = "")
     })
     
-    return(input_data)
+    return(list(input_data, problem))  # Return the input data and reactive variable, problem
   })
 }
