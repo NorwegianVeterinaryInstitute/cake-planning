@@ -8,7 +8,8 @@ sidebarUI <- function(id) {
     # Add radio buttons
     radioButtons(ns('select'), 'Select Option:',
                  choices = list("Add a new cake entry" = 1, "Modify an entry" = 2, "Delete an entry" = 3),
-                 selected = 1),
+                 selected = 1) |>
+      tooltip("To modify or delete use the same Date, Name and Secret Ingretient as original entry"),
     dateInput(ns('date'), 'Select Date:', value = Sys.Date()),
     timeInput(ns("hour"), "Time:", value = strptime("12:00:00", "%T"), minute.steps = 10),
     selectInput(
@@ -30,7 +31,7 @@ sidebarUI <- function(id) {
         "Sekvensen",
         "Skalpellen",
         "Utsikten"
-      )
+      ), selected = "Rapporten"
     ) |>
       tooltip("Remember to book the room!"),
     selectInput(ns('section'), 'Select Section:', choices = c(
@@ -58,7 +59,7 @@ sidebarUI <- function(id) {
       "Molekylærbiologi",                      
       "Økonomi, regnskap og lønn",             
       "Virologi, immunologi og parasittologi" 
-    )),
+    ), selected = "Epidemiologi"),
     textInput(ns('person'), 'Person Name:'),
     textInput(ns('sec_in'), 'Secret Ingredient:'),
     textAreaInput(ns('cake_desc'), 'Cake Description:', rows = 3),
@@ -75,8 +76,7 @@ sidebarServer <- function(id, board) {
     problem <- reactiveVal()
     # Add default text for this variable
     problem(paste('I hope you are here to make a new cake entry!',
-              'To modify an entry, click \'Modify an entry\'. Use the same \'Date\', \'Name\' and \'Secret Ingredient\' as the original entry.',
-              'To delete an entry, click \'Delete an ebtry\'. Use the same \'Date\', \'Name\' and \'Secret Ingredient\' as the original entry.',
+              'Maybe you just want to modify or delete an entry you made?',
               sep="\n"))
     
     # Observe the radio button (select) to expand or collapse input list
@@ -114,7 +114,7 @@ sidebarServer <- function(id, board) {
         input$room,
         input$section,
         input$person,
-        input$cake_desc
+        input$sec_in
       )
       pinned_cakes <- pin_read(board,
                                name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs')
