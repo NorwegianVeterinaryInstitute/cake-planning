@@ -89,7 +89,7 @@ sidebarServer <- function(id, board) {
     input_data <- reactive({
       data.frame(
         `Date` = input$date,
-        `Hour` = input$hour,
+        `Hour` = (strftime(input$hour, "%R")),
         `Room` = input$room,
         `Section` = input$section,
         `Person.Name` = input$person,
@@ -111,7 +111,37 @@ sidebarServer <- function(id, board) {
       pinned_cakes <- pin_read(board,
                                name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'))
       
-      updated_cakes <- rbind(pinned_cakes, input_data())
+      # See if the entry already exists
+      pinned_cakes_exists <- pinned_cakes |>
+        dplyr::filter(Secret.Ingredient == input$sec_in & Person.Name == input$person & Date == input$date)
+      
+      # If the user chooses to modify
+      if(input$select == 2) {
+        # If the entry is not found, do not change anything
+        if (nrow(pinned_cakes_exists) == 0) {
+          updated_cakes <- pinned_cakes
+        } else { # If entry is found, update the table
+          # Remove previous entry
+          pinned_cakes <- pinned_cakes |>
+            dplyr::filter(Secret.Ingredient != input$sec_in | Person.Name != input$person | Date != input$date)
+          # Replace with new entry
+          updated_cakes <- rbind(pinned_cakes, input_data())
+        }
+      } else if (input$select == 3) { # If the user chooses to delete
+        if (nrow(pinned_cakes_exists) == 0) { # If entry does not exists, do nothing
+          updated_cakes <- pinned_cakes
+        } else { # If entry exists, remove the entry
+          pinned_cakes <- pinned_cakes |>
+            dplyr::filter(Secret.Ingredient != input$sec_in | Person.Name != input$person | Date != input$date)
+          updated_cakes <- pinned_cakes
+        }
+      } else { # If the user chooses to add an entry
+        if (nrow(pinned_cakes_exists) != 0) { # If entry already exists, do not do anything
+          updated_cakes <- pinned_cakes
+        } else { # If entry does not exist, add the entry
+          updated_cakes <- rbind(pinned_cakes, input_data())
+        }
+      }
       
       # Save the input data frame to the pin board
       pin_write(
