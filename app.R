@@ -43,10 +43,26 @@ ui <- fluidPage(
   )), div(
     h1('VI Cake Planner'), uiOutput('subtitle')
   )),
-  
-  sidebarLayout(sidebarPanel(# Call sidebar module UI
-    sidebarUI('sidebar1')), mainPanel(# Call main panel module UI
-      mainPanelUI('mainpanel1')))
+ 
+  sidebarLayout(
+    sidebarPanel(
+      sidebarUI('sidebar1')  # Call sidebar module UI
+    ),
+    mainPanel(
+      # Add a navigation panel
+      navset_card_underline(
+        # Add a title for the panel
+        title = "When do you want cake? Are you a time traveller (Click Historic then!)?",
+        # Create 3 panels, today, upcoming and Historic(All)
+        # All of these panels will call mainpanelUI() module
+        nav_panel("Today", mainPanelUI('mainpanel2')),
+        nav_panel("Upcoming", mainPanelUI('mainpanel3')),
+        nav_panel("Historic (All)", mainPanelUI('mainpanel1')),
+        
+      )
+    )
+  ) 
+
 )
 
 # Define server logic
@@ -66,6 +82,8 @@ server <- function(input, output, session) {
   # Call the modules
   input_data <- sidebarServer('sidebar1', board)  # Call sidebar module server
   mainPanelServer('mainpanel1', board)           # Call main panel module server
+  mainPanelServer_today('mainpanel2', board)     # Call main panel module server
+  mainPanelServer_up('mainpanel3', board)        # Call main panel module server
 }
 
 # Run the application
