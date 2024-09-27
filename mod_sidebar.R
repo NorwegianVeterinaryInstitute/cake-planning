@@ -54,6 +54,7 @@ sidebarUI <- function(id) {
       "Virologi, immunologi og parasittologi" 
     )),
     textInput(ns('person'), 'Person Name:'),
+    textInput(ns('sec_in'), 'Secret Ingredient:'),
     textAreaInput(ns('cake_desc'), 'Cake Description:', rows = 3),
     actionButton(ns('submit'), 'Submit')
   )
@@ -70,8 +71,9 @@ sidebarServer <- function(id, board) {
         `Hour` = input$hour,
         `Room` = input$room,
         `Section` = input$section,
-        `Person Name` = input$person,
-        `Cake Description` = input$cake_desc,
+        `Person.Name` = input$person,
+        `Secret.Ingredient` = input$sec_in,
+        `Cake.Description` = input$cake_desc,
         stringsAsFactors = FALSE
       )
     })
@@ -85,7 +87,8 @@ sidebarServer <- function(id, board) {
         input$person,
         input$cake_desc
       )
-      pinned_cakes <- pin_read(board, name = paste0('cake_user_inputs'))
+      pinned_cakes <- pin_read(board,
+                               name = paste0(Sys.getenv("USER_NAME"), '/cake_user_inputs'))
       
       updated_cakes <- rbind(pinned_cakes, input_data())
       
@@ -103,6 +106,7 @@ sidebarServer <- function(id, board) {
       updateSelectInput(session, "room", selected = NULL)
       updateSelectInput(session, "section", selected = NULL)
       updateTextInput(session, "person", value = "")
+      updateTextInput(session, "sec_in", value = "")
       updateTextAreaInput(session, "cake_desc", value = "")
     })
     
