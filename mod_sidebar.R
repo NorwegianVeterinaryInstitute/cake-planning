@@ -74,7 +74,10 @@ sidebarServer <- function(id, board) {
     # Create a reactive variable: problem
     problem <- reactiveVal()
     # Add default text for this variable
-    problem("I hope you are here to make a new cake entry!")
+    problem(paste('I hope you are here to make a new cake entry!',
+              'To modify an entry, click \'Modify an entry\'. Use the same \'Date\', \'Name\' and \'Secret Ingredient\' as the original entry.',
+              'To delete an entry, click \'Delete an ebtry\'. Use the same \'Date\', \'Name\' and \'Secret Ingredient\' as the original entry.',
+              sep="\n"))
     
     # Observe the radio button (select) to expand or collapse input list
     observeEvent(input$select, {
@@ -126,11 +129,17 @@ sidebarServer <- function(id, board) {
         # If the entry is not found, do not change anything
         if (nrow(pinned_cakes_exists) == 0) {
           # Update the text in reactive variable: problem
-          problem("We cannot find your entry! Did you forget your secret ingredient?")
+          problem(paste('We cannot find your entry!', 
+                    'Did you forget your secret ingredient?',
+                    'Remember, inputs are case-sensitive', 
+                    sep="\n"))
           updated_cakes <- pinned_cakes
         } else { # If entry is found, update the table
           # Update the text in reactive variable: problem
-          problem("Entry modified! If you do not see the modification, kindly refresh the page.")
+          problem(paste('Entry modified', 
+                    'Cannot see your modification? Just refrest the page!',
+                    'Thank you for being so acquainted!',
+                    sep="\n"))
           # Remove previous entry
           pinned_cakes <- pinned_cakes |>
             dplyr::filter(Secret.Ingredient != input$sec_in | Person.Name != input$person | Date != input$date)
@@ -140,11 +149,17 @@ sidebarServer <- function(id, board) {
       } else if (input$select == 3) { # If the user chooses to delete
         if (nrow(pinned_cakes_exists) == 0) { # If entry does not exists, do nothing
           # Update the text in reactive variable: problem
-          problem("We cannot find your entry! Did you forget your secret ingredient?")
+          problem(paste('We cannot find your entry!', 
+                    'Did you forget your secret ingredient?',
+                    'Remember, inputs are case-sensitive',
+                    sep="\n"))
           updated_cakes <- pinned_cakes
         } else { # If entry exists, remove the entry
           # Update the text in reactive variable: problem
-          problem("Entry deleted! Sad! Bet the cake was awesome! Anyways, if you do not see the deletion, kindly refresh the page.")
+          problem(paste('Entry deleted! Sad! Bet the cake was awesome!', 
+                    'Cannot see your modification? Just refrest the page!',
+                    'Please inform your colleagues that you are not bringing cake. Bet they will be disappointed.',
+                    sep="\n"))
           pinned_cakes <- pinned_cakes |>
             dplyr::filter(Secret.Ingredient != input$sec_in | Person.Name != input$person | Date != input$date)
           updated_cakes <- pinned_cakes
@@ -152,11 +167,17 @@ sidebarServer <- function(id, board) {
       } else { # If the user chooses to add an entry
         if (nrow(pinned_cakes_exists) != 0) { # If entry already exists, do not do anything
           # Update the text in reactive variable: problem
-          problem("Entry already exists! If you are trying to modify an entry, select Modify")
+          problem(paste('Entry already exists!', 
+                    'If you are trying to modify an entry, select \'Modify\'',
+                    'You are a G.O.A.T if you plan on bringing two cakes though!',
+                    sep="\n"))
           updated_cakes <- pinned_cakes
         } else { # If entry does not exist, add the entry
           # Update the text in reactive variable: problem
-          problem("Thank you for cake! Can't wait to Nom Nom Nom Nom Nom!!!!")
+          problem(paste('Thank you for cake!', 
+                    'I bet everyone can\'t wait to Nom Nom Nom Nom Nom!!!!',
+                    'Cannot see your addition? Just refrest the page!',
+                    sep="\n"))
           updated_cakes <- rbind(pinned_cakes, input_data())
         }
       }
