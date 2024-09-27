@@ -1,8 +1,27 @@
+# Main Panel UI card Module
+mainPanelUI_card <- function(id) {
+  ns <- NS(id)
+  # We want the output as a text
+  tagList(
+    verbatimTextOutput(ns('text'))
+  )
+} 
+
 # Main Panel UI Module
 mainPanelUI <- function(id) {
   ns <- NS(id)
   # We want to output a datatable
   tagList(DTOutput(ns('dataTable')))
+}
+
+# Main Panel Server card Module
+mainPanelServer_card <- function(id, problem) {
+  moduleServer(id, function(input, output, session) {
+    # Render the text as output
+    output$text <- renderText({
+      paste0(problem())
+    })
+  })
 }
 
 # Main Panel Server Module

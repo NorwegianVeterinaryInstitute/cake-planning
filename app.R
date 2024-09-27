@@ -49,6 +49,9 @@ ui <- fluidPage(
       sidebarUI('sidebar1')  # Call sidebar module UI
     ),
     mainPanel(
+      # Add a card in the main panel
+      # This card will call the mainpanelUI_card() module
+      card(card_body(mainPanelUI_card('text1'))),
       # Add a navigation panel
       navset_card_underline(
         # Add a title for the panel
@@ -80,7 +83,10 @@ server <- function(input, output, session) {
   })
   
   # Call the modules
-  input_data <- sidebarServer('sidebar1', board)  # Call sidebar module server
+  input_data_more <- sidebarServer('sidebar1', board)  # Call sidebar module server
+  # Call the mail panel card module server
+  # This module will take the second element of input_data_more as an argument
+  mainPanelServer_card('text1', input_data_more[[2]])
   mainPanelServer('mainpanel1', board)           # Call main panel module server
   mainPanelServer_today('mainpanel2', board)     # Call main panel module server
   mainPanelServer_up('mainpanel3', board)        # Call main panel module server
