@@ -60,7 +60,7 @@ ui <- fluidPage(
         # All of these panels will call mainpanelUI() module
         nav_panel("Today", mainPanelUI('mainpanel2')),
         nav_panel("Upcoming", mainPanelUI('mainpanel3')),
-        nav_panel("Historic (All)", mainPanelUI('mainpanel1')),
+        nav_panel("Historic (All)", mainPanelUI('mainpanel1'))
         
       )
     )
