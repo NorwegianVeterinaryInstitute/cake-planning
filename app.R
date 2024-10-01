@@ -74,9 +74,10 @@ server <- function(input, output, session) {
   # Call the modules
   inputData_more <- sidebarServer('sidebar1', board)  # Call sidebar module server
   mainPanelServer_card('text1', inputData_more[[2]])
-  mainPanelServer('mainpanel1', board)           # Call main panel module server
-  mainPanelServer_today('mainpanel2', board)
-  mainPanelServer_up('mainpanel3', board)
+  pinned_cakes <- pin_reactive_read(board, name = paste0('cake_user_inputs'), interval = 1000)
+  mainPanelServer('mainpanel1', pinned_cakes, "All")           # Call main panel module server
+  mainPanelServer('mainpanel2', pinned_cakes, "today")
+  mainPanelServer('mainpanel3', pinned_cakes, "upcoming")
 }
 
 # Run the application 
