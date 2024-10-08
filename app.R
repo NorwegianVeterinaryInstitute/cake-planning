@@ -74,8 +74,7 @@ server <- function(input, output, session) {
   subtitles <- c(
     'Don\'t miss on all the fun!',
     'Keep your blood sugar on par with your caffeine intake!',
-    'Never miss a cake!',
-    'The cake is not a lie!'
+    'Never miss a cake!'
   )
   
   output$subtitle <- renderUI({
